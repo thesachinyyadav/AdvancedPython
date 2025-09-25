@@ -1,0 +1,3 @@
+Hello, this is a sample text file.
+It is used for testing Read, Write, and Append operations.
+Line 3: File handling in Python is easy with Streamlit.

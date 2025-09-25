@@ -1,0 +1,94 @@
+===== Dataset Description =====
+               Combined_ID      Target  AGE_AT_SCAN   ...  SRS_COMMUNICATION_T  SRS_MOTIVATION_T  SRS_MANNERISMS_T
+count                  298  298.000000    298.000000  ...           260.000000        260.000000        260.000000
+unique                 298         NaN           NaN  ...                  NaN               NaN               NaN
+top     ABIDEII-KKI_129273         NaN           NaN  ...                  NaN               NaN               NaN
+freq                     1         NaN           NaN  ...                  NaN               NaN               NaN
+mean                   NaN    1.520134     10.066821  ...            58.250000         57.769231         60.680769
+std                    NaN    0.500435      2.262906  ...            18.305299         16.980360         20.536483
+min                    NaN    1.000000      5.128000  ...            36.000000         37.000000         40.000000
+25%                    NaN    1.000000      8.576130  ...            43.000000         44.000000         43.000000
+50%                    NaN    2.000000     10.211700  ...            51.500000         52.000000         51.000000
+75%                    NaN    2.000000     11.319400  ...            75.000000         70.000000         76.000000
+max                    NaN    2.000000     17.800000  ...           105.000000        106.000000        121.000000
+
+[11 rows x 23 columns]
+
+===== Shape of Dataset =====
+(298, 23)
+
+===== Column Names =====
+['Combined_ID', 'Target', 'AGE_AT_SCAN ', 'FIQ', 'VIQ', 'PIQ', 'ADI_R_SOCIAL_TOTAL_A', 'ADI_R_VERBAL_TOTAL_BV', 'ADI_R_NONVERBAL_TOTAL_BV', 'ADI_R_RRB_TOTAL_C', 'ADI_R_ONSET_TOTAL_D', 'SRS_TOTAL_RAW', 'SRS_AWARENESS_RAW', 'SRS_COGNITION_RAW', 'SRS_COMMUNICATION_RAW', 'SRS_MOTIVATION_RAW', 'SRS_MANNERISMS_RAW', 'SRS_TOTAL_T', 'SRS_AWARENESS_T', 'SRS_COGNITION_T', 'SRS_COMMUNICATION_T', 'SRS_MOTIVATION_T', 'SRS_MANNERISMS_T']
+
+===== First 5 Rows =====
+          Combined_ID  Target  AGE_AT_SCAN   ...  SRS_COMMUNICATION_T  SRS_MOTIVATION_T  SRS_MANNERISMS_T
+0  ABIDEII-KKI_129273       1      8.476712  ...                 72.0              61.0              71.0
+1  ABIDEII-KKI_129274       1      9.246575  ...                 90.0              90.0              90.0
+2  ABIDEII-KKI_129277       1     12.789041  ...                 57.0              40.0              53.0
+3  ABIDEII-KKI_129280       1      8.457534  ...                 88.0              78.0              90.0
+4  ABIDEII-KKI_129281       1      9.331507  ...                 89.0              73.0              65.0
+
+[5 rows x 23 columns]
+
+===== Last 5 Rows =====
+           Combined_ID  Target  AGE_AT_SCAN   ...  SRS_COMMUNICATION_T  SRS_MOTIVATION_T  SRS_MANNERISMS_T
+293  ABIDEII-SU_230198       2        9.7721  ...                  NaN               NaN               NaN
+294  ABIDEII-SU_230194       2        8.5969  ...                  NaN               NaN               NaN
+295  ABIDEII-SU_230196       2       11.4440  ...                  NaN               NaN               NaN
+296  ABIDEII-SU_230195       2       13.1916  ...                  NaN               NaN               NaN
+297  ABIDEII-SU_230193       2       11.1999  ...                  NaN               NaN               NaN
+
+[5 rows x 23 columns]
+
+===== Missing Values Count =====
+Combined_ID                  0
+Target                       0
+AGE_AT_SCAN                  0
+FIQ                          1
+VIQ                          1
+PIQ                          0
+ADI_R_SOCIAL_TOTAL_A        38
+ADI_R_VERBAL_TOTAL_BV       39
+ADI_R_NONVERBAL_TOTAL_BV    38
+ADI_R_RRB_TOTAL_C           39
+ADI_R_ONSET_TOTAL_D         38
+SRS_TOTAL_RAW               38
+SRS_AWARENESS_RAW           38
+SRS_COGNITION_RAW           38
+SRS_COMMUNICATION_RAW       38
+SRS_MOTIVATION_RAW          38
+SRS_MANNERISMS_RAW          38
+SRS_TOTAL_T                 38
+SRS_AWARENESS_T             38
+SRS_COGNITION_T             38
+SRS_COMMUNICATION_T         38
+SRS_MOTIVATION_T            38
+SRS_MANNERISMS_T            38
+dtype: int64
+
+===== Missing Values Percentage =====
+Combined_ID                  0.000000
+Target                       0.000000
+AGE_AT_SCAN                  0.000000
+FIQ                          0.335570
+VIQ                          0.335570
+PIQ                          0.000000
+ADI_R_SOCIAL_TOTAL_A        12.751678
+ADI_R_VERBAL_TOTAL_BV       13.087248
+ADI_R_NONVERBAL_TOTAL_BV    12.751678
+ADI_R_RRB_TOTAL_C           13.087248
+ADI_R_ONSET_TOTAL_D         12.751678
+SRS_TOTAL_RAW               12.751678
+SRS_AWARENESS_RAW           12.751678
+SRS_COGNITION_RAW           12.751678
+SRS_COMMUNICATION_RAW       12.751678
+SRS_MOTIVATION_RAW          12.751678
+SRS_MANNERISMS_RAW          12.751678
+SRS_TOTAL_T                 12.751678
+SRS_AWARENESS_T             12.751678
+SRS_COGNITION_T             12.751678
+SRS_COMMUNICATION_T         12.751678
+SRS_MOTIVATION_T            12.751678
+SRS_MANNERISMS_T            12.751678
+dtype: float64
+

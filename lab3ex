@@ -1,0 +1,140 @@
+import tkinter as tk
+from tkinter import ttk, messagebox
+
+class PizzaApp:
+    def __init__(self, root):
+        self.root = root
+        root.title("Pizza Ordering System")
+        root.geometry("650x450")
+        
+        self.data = {
+            "sizes": {"Small": 150, "Medium": 250, "Large": 350},
+            "crusts": {"Thin": 0, "Thick": 30, "Stuffed": 70},
+            "toppings": {"Pepperoni": 50, "Mushrooms": 30, "Sausage": 60, "Peppers": 25, "Onions": 20, "Cheese": 40}
+        }
+        
+        self.vars = {
+            "size": tk.StringVar(value="Medium"),
+            "crust": tk.StringVar(value="Thin"),
+            "qty": tk.StringVar(value="1"),
+            "toppings": {t: tk.BooleanVar() for t in self.data["toppings"]}
+        }
+        
+        self.setup()
+        self.update()
+    
+    def setup(self):
+        left = ttk.Frame(self.root, padding="10")
+        left.pack(side="left", fill="both", expand=True)
+        right = ttk.Frame(self.root, padding="10")
+        right.pack(side="right", fill="both", expand=True)
+        
+        ttk.Label(left, text="Pizza Customization", font=("Arial", 14, "bold")).pack(pady=5)
+        
+        for label, var, values in [("Size:", self.vars["size"], self.data["sizes"]), 
+                                   ("Crust:", self.vars["crust"], self.data["crusts"])]:
+            ttk.Label(left, text=label).pack(anchor="w", pady=(10,0))
+            combo = ttk.Combobox(left, textvariable=var, values=list(values.keys()))
+            combo.pack(fill="x", pady=2)
+            combo.bind('<<ComboboxSelected>>', self.update)
+        
+        ttk.Label(left, text="Toppings:").pack(anchor="w", pady=(10,0))
+        for name, price in self.data["toppings"].items():
+            ttk.Checkbutton(left, text=f"{name} (+₹{price})", 
+                           variable=self.vars["toppings"][name], command=self.update).pack(anchor="w")
+        
+        ttk.Label(left, text="Quantity:").pack(anchor="w", pady=(10,0))
+        qty = ttk.Spinbox(left, from_=1, to=10, textvariable=self.vars["qty"], width=10)
+        qty.pack(anchor="w", pady=2)
+        qty.bind('<KeyRelease>', self.update)
+        qty.bind('<ButtonRelease-1>', self.update)
+        
+        btn_frame = ttk.Frame(left)
+        btn_frame.pack(pady=20)
+        for text, cmd in [("Show Bill", self.bill), ("Reset", self.reset)]:
+            ttk.Button(btn_frame, text=text, command=cmd).pack(side="left", padx=2)
+        
+        ttk.Label(right, text="Order Summary", font=("Arial", 14, "bold")).pack()
+        self.display = tk.Text(right, width=32, height=22, wrap="word")
+        self.display.pack(fill="both", expand=True)
+    
+    def calc(self):
+        order = {
+            "size": self.vars["size"].get(),
+            "crust": self.vars["crust"].get(),
+            "toppings": [t for t, v in self.vars["toppings"].items() if v.get()],
+            "qty": int(self.vars["qty"].get()) if self.vars["qty"].get().isdigit() else 1
+        }
+        
+        price = (self.data["sizes"][order["size"]] + 
+                self.data["crusts"][order["crust"]] + 
+                sum(self.data["toppings"][t] for t in order["toppings"]))
+        
+        subtotal = price * order["qty"]
+        gst = subtotal * 0.12
+        return order, price, subtotal, gst, subtotal + gst
+    
+    def update(self, e=None):
+        order, price, subtotal, gst, total = self.calc()
+        
+        text = f"=== ORDER SUMMARY ===\n\nSize: {order['size']} (₹{self.data['sizes'][order['size']]})\n"
+        text += f"Crust: {order['crust']} (+₹{self.data['crusts'][order['crust']]})\n"
+        text += f"Toppings: {', '.join(order['toppings']) or 'None'}\n"
+        
+        for t in order['toppings']:
+            text += f"  • {t} (+₹{self.data['toppings'][t]})\n"
+        
+        text += f"\nQuantity: {order['qty']}\nPer Pizza: ₹{price:.2f}\n"
+        text += f"Subtotal: ₹{subtotal:.2f}\nGST (12%): ₹{gst:.2f}\nTOTAL: ₹{total:.2f}"
+        
+        self.display.delete(1.0, "end")
+        self.display.insert(1.0, text)
+    
+    def bill(self):
+        order, price, subtotal, gst, total = self.calc()
+        
+        win = tk.Toplevel(self.root)
+        win.title("Final Bill")
+        win.geometry("380x420")
+        
+        bill = tk.Text(win, wrap="word", font=("Courier", 9))
+        bill.pack(fill="both", expand=True, padx=10, pady=10)
+        
+        content = f"{'='*28}\n   PIZZA ORDER BILL\n{'='*28}\n\n"
+        content += f"Size: {order['size']}\nCrust: {order['crust']}\n"
+        content += f"Toppings: {', '.join(order['toppings']) or 'None'}\nQuantity: {order['qty']}\n\n"
+        content += f"{'ITEM':<14} {'PRICE':>8}\n{'-'*24}\n"
+        content += f"Base ({order['size']}){'':<4} ₹{self.data['sizes'][order['size']]:>5.2f}\n"
+        content += f"Crust ({order['crust']}){'':<3} ₹{self.data['crusts'][order['crust']]:>5.2f}\n"
+        
+        for t in order['toppings']:
+            content += f"{t:<14} ₹{self.data['toppings'][t]:>5.2f}\n"
+        
+        content += f"{'-'*24}\nPer Pizza{'':<7} ₹{price:>5.2f}\n"
+        content += f"Quantity{'':<8} {order['qty']:>5}\nSubtotal{'':<7} ₹{subtotal:>5.2f}\n"
+        content += f"GST (12%){'':<6} ₹{gst:>5.2f}\n{'='*24}\n"
+        content += f"TOTAL PAYABLE ₹{total:>5.2f}\n{'='*24}"
+        
+        bill.insert(1.0, content)
+        bill.config(state="disabled")
+        
+        btn = ttk.Frame(win)
+        btn.pack(pady=8)
+        ttk.Button(btn, text="Revise", command=lambda: [win.destroy(), 
+                  messagebox.showinfo("Revise", "Modify your order now!")]).pack(side="left", padx=3)
+        ttk.Button(btn, text="Confirm", command=lambda: [
+                  messagebox.showinfo("Confirmed!", f"Order confirmed!\nTotal: ₹{total:.2f} (incl. 12% GST)"), 
+                  win.destroy(), self.reset()]).pack(side="left", padx=3)
+    
+    def reset(self):
+        self.vars["size"].set("Medium")
+        self.vars["crust"].set("Thin")
+        self.vars["qty"].set("1")
+        for v in self.vars["toppings"].values():
+            v.set(False)
+        self.update()
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    PizzaApp(root)
+    root.mainloop()
